@@ -6,7 +6,7 @@
 /*   By: avelandr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 10:47:19 by avelandr          #+#    #+#             */
-/*   Updated: 2025/04/29 15:55:47 by avelandr         ###   ########.fr       */
+/*   Updated: 2025/04/29 17:13:22 by avelandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,23 @@ typedef struct s_game
 	t_personaje	pj;           // el jugador
 } t_game;
 
-// funciones
+// map.c
+void    abrir_mapa(t_mapa *m);
+char    **append_line(char **mapa, char *line, int filas);
+int		is_valid_map(t_mapa *m);
+int		check_muros(t_mapa *m);
+int		check_PEC(t_mapa *m);
+
+// bfs.c
+int		is_valid_position(t_mapa *m, int x, int y);
+void	 free_visited(int **visited, int filas);
+int		**init_visited(int filas, int column);
+int		bfs_algorithm(t_mapa *m, t_pos *queue, int **visited);
+int		shortest_path(t_mapa *m);
+
+// input.c
+void set_moves(t_pos moves[4], t_pos c);
+int handle_key(int keycode, t_game *g);
+int set_next_move(int keycode, t_pos moves[4], t_pos *next, t_game *g);
 
 #endif
