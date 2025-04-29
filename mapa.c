@@ -6,7 +6,7 @@
 /*   By: avelandr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 11:06:19 by avelandr          #+#    #+#             */
-/*   Updated: 2025/04/28 19:57:11 by avelandr         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:19:10 by avelandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char    **append_line(char **mapa, char *line, int filas)
 	- Verificar forma rectangular
 	- Contar y validar P, E, C
 	- Comprobar que está rodeado de muros
-	- Validar que hay camino con DFS/BFS
+	- Validar que hay camino con BFS
 */
 int	is_valid_map(t_mapa *m)
 {
@@ -89,41 +89,45 @@ int	is_valid_map(t_mapa *m)
 	int	i;
 	int	j;
 
-	mapa = *m->mapa;
+	mapa = m->mapa;
 	if (m->filas != m->column)
-		return (1);+
+		return (1);
 	if (check_muros(m) == 1)
 		return (1);
+	return (0);
 }
 
 int	check_muros(t_mapa *m)
 {
-        int     i;
-        int     j;
+    int     i;
+	int     j;
+	char    **mapa;
 
-        i = 0;
-        j = 0;
-        while (j < m->column)
-        {
-                if (mapa[0][j] != MURO)
-                        return (1)
-                else
-                        j++;
-        }
+    i = 0;
+	j = 0;
+	mapa = m->mapa;
+	while (j < m->column)
+	{
+        if (mapa[0][j] != MURO)
+                return (1);
+        else
+            j++;
+    }
 	i++;
 	while (i < m->filas)
 	{
-		if (mapa[i][0] != MURO || mapa[i][m->column] != MURO)
-			return (1)
+		if (mapa[i][0] != MURO || mapa[i][m->column - 1] != MURO)
+			return (1);
+		i++;
 	}
 	j = 0;
-        while (j < m->column)
-        {
-                if (mapa[m->filas][j] != MURO)
-                        return (1)
-                else
-                        j++;
-        }
+    while (j < m->column)
+    {
+        if (mapa[m->filas - 1][j] != MURO)
+            return (1);
+        else
+            j++;
+    }
 	return (0);
 }
 
@@ -132,20 +136,22 @@ int	check_muros(t_mapa *m)
 */
 int	check_PEC(t_mapa *m)
 {
-	int     i;
-        int     j;
-	int	num_p;
-	int	num_e;
-	int	num_c;
+	int		    i;
+    int		    j;
+	int		num_p;
+	int		num_e;
+	int		num_c;
+	char	**mapa;
 
-        i = 1;
-        j = 0;
+    i = 0;
 	num_p = 0;
 	num_e = 0;
 	num_c = 0;
-	while (i < m->filas)
+	mapa = m->mapa;
+	while (++i < m->filas)
 	{
-		while (j < m->column)
+		j = 0;
+		while (++j < m->column)
         	{
         	        if (mapa[i][j] == INIT_POINT)
 				num_p++;
@@ -155,7 +161,7 @@ int	check_PEC(t_mapa *m)
 				num_c++;
         	}
 	}
-	if (num_e < 0 || num_c > 1 || num_p == 0 || num_p > 1)
+	if (num_p != 1 || num_e != 1 || num_c < 1)
 		return (1);
 	else
 		return (0);

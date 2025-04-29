@@ -6,7 +6,7 @@
 /*   By: avelandr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 10:47:19 by avelandr          #+#    #+#             */
-/*   Updated: 2025/04/26 13:11:02 by avelandr         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:55:47 by avelandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,13 @@ typedef struct
 	int	filas;
 	int	column;
 	int	items;
-	int	pos_x;
-	int	pos_y;
-} t_mapa
+} t_mapa;
 
-typedef struct
+typedef struct s_pos
 {
-	int	movimientos;
-} t_personaje;
+    int x;
+    int y;
+} t_pos;
 
 typedef struct s_game
 {
