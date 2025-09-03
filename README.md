@@ -13,37 +13,6 @@ Documentacion oficial: [https://harm-smits.github.io/42docs/libs/minilibx](https
 Este proyecto se ha desarrollado siguiendo la guía de referencia disponible en:
 [https://42-cursus.gitbook.io/guide](https://42-cursus.gitbook.io/guide)
 
-### Estructura de Archivos
-
-La estructura del proyecto es la siguiente:
-
-.
-├── Makefile
-├── README.md
-├── maps/
-│   ├── mapa_valido.ber
-│   └── mapa_invalido.ber
-├── srcs/
-│   ├── game_logic.c
-│   ├── main.c
-│   ├── map.c
-│   ├── render.c
-│   ├── sprite_init.c
-│   └── utils.c
-├── textures/
-│   ├── exit_closed.xpm
-│   ├── exit_opened.xpm
-│   ├── floor.xpm
-│   ├── collectible.xpm
-│   ├── player.xpm
-│   └── wall.xpm
-├── libft/
-│   ├── Includes/
-│   └── srcs/
-├── minilibx-linux/
-└── solong.h
-
-
 ### Cómo Jugar
 
 1.  Asegúrate de tener un archivo `.ber` válido en la carpeta `maps`.
