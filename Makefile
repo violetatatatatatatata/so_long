@@ -3,57 +3,62 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: avelandr <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: avelandr <avelandr@student.42barcelon>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/15 12:30:28 by avelandr          #+#    #+#              #
-#    Updated: 2025/03/07 20:19:10 by avelandr         ###   ########.fr        #
+#    Updated: 2025/09/03 21:53:08 by avelandr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Compiladador y sus flags
+# Compilador y sus flags
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Wextra -Werror -g
 
-# Libreria
-NAME = get_next_line.a
+# Nombre del ejecutable
+NAME = so_long
 
-# Lista de funciones a compilar
-FUNCTIONS = get_next_line.c \
-	get_next_line_utils.c
+# Archivos fuente del proyecto
+SRCS = srcs/main.c srcs/map.c srcs/render.c srcs/sprite_init.c srcs/bfs.c srcs/game_logic.c srcs/utils.c
 
-OBJS = $(FUNCTIONS:%.c=%.o)
+# Archivos objeto
+OBJS = $(SRCS:.c=.o)
 
-# Default target
+# Rutas y nombres de las bibliotecas externas
+LIBFT_DIR = ./libft
+LIBFT_LIB = $(LIBFT_DIR)/libft.a
+
+MLX_DIR = ./minilibx-linux
+MLX_LIB = $(MLX_DIR)/libmlx.a
+
+# Flags para enlazar
+LDFLAGS = -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
+
+# Inclusión de headers
+INCLUDES = -I./srcs -I$(LIBFT_DIR)/Includes -I$(MLX_DIR)
+
 all: $(NAME)
 
-# Rule to create the static library
-$(NAME): $(OBJS)
-	ar rcs $(NAME) $^
+$(NAME): $(OBJS) $(LIBFT_LIB) $(MLX_LIB)  # ← Agregar $(MLX_LIB) aquí
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LDFLAGS) -o $(NAME)
 
-# Rule to compile .c files into .o files
-$(OBJS): %.o: %.c get_next_line.h Makefile
-	$(CC) -c $(CFLAGS) $< -o $@
+$(LIBFT_LIB):
+	$(MAKE) -C $(LIBFT_DIR)
 
-$(BOBJS): %.o: %.c get_next_line.h
-	$(CC) -c $(CFLAGS) $< -o $@
+$(MLX_LIB):
+	$(MAKE) -C $(MLX_DIR)
 
-# Rule to run Valgrind for memory leak checks
-valgrind: $(NAME)
-	valgrind --leak-check=full --track-fds=yes ./$(NAME)
-
-# Clean up the object files
 clean:
 	rm -f $(OBJS)
-# Clean up the object files and the library
+	$(MAKE) -C $(LIBFT_DIR) clean
+	$(MAKE) -C $(MLX_DIR) clean
+
+# Limpieza total: elimina objetos y el ejecutable
 fclean: clean
 	rm -f $(NAME)
+	$(MAKE) -C $(LIBFT_DIR) fclean
 
-# Rebuild the library from scratch
+# Recompilar todo (limpia y luego compila)
 re: fclean all
 
-# Print the list of functions (for debugging purposes)
-info:
-	$(info $(FUNCTIONS))
-
-# Declare these rules as phony (they are not actual files)
-.PHONY: all clean fclean re info valgrind
+# Indicamos a make que estos son "phony targets" y no archivos reales
+.PHONY: all clean fclean re $(LIBFT_LIB)
