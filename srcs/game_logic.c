@@ -25,8 +25,6 @@ int	move_player(t_game *game, int new_x, int new_y)
 		game->map.collectible_count--;
 		game->map.map[new_y][new_x] = EMPTY;
 	}
-	if (next_cell == EXIT && game->map.collectible_count > 0)
-		return (0);
 	game->moves++;
 	game->map.player_pos.x = new_x;
 	game->map.player_pos.y = new_y;
