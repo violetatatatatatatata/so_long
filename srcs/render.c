@@ -6,45 +6,40 @@
 /*   By: avelandr <avelandr@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:13:51 by avelandr          #+#    #+#             */
-/*   Updated: 2025/09/03 23:35:55 by avelandr         ###   ########.fr       */
+/*   Updated: 2025/09/04 10:56:35 by avelandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-	Dibujar en pantalla lo que se ha cargado en el mapa (char **mapa), usando
-	MiniLibX (mlx_put_image_to_window).
-
-	- Recorrer el mapa fila a fila y columna a columna.
-	- Según el carácter ('0', '1', 'C', 'E', 'P') dibujar:
-		suelo (img_ground)
-		pared (img_wall)
-		item (img_item)
-		salida (img_exit)
-		jugador (img_player) → en la posición del jugador, no de P en el mapa.
-	- Loop doble (for filas y columnas).
-	- Para cada (i, j):
-		Primero dibujar siempre el suelo (img_ground).
-		Luego si el mapa tiene:
-			'1' → dibujar pared (img_wall).
-			'C' → dibujar item (img_item).
-			'E' → dibujar salida (img_exit).
-			'P' → no dibujar nada especial (porque ahora el jugador real se pinta aparte).
-	- Dibujar jugador en g->pj.x y g->pj.y.
-*/
-
 #include "solong.h"
 
-void	draw_sprite(t_game *game, t_img sprite, int x, int y)
+// Dibuja el sprite correcto para una sola celda
+void	render_tile(t_game *game, int x, int y)
 {
-	mlx_put_image_to_window(game->mlx, game->win, sprite.img,
-		x * TILE_SIZE, y * TILE_SIZE);
+	char	cell;
+
+	cell = game->map.map[y][x];
+	if (cell == MURO)
+		draw_sprite(game, game->wall, x, y);
+	else
+	{
+		draw_sprite(game, game->floor, x, y);
+		if (cell == ITEM)
+			draw_sprite(game, game->collectible, x, y);
+		if (cell == EXIT)
+		{
+			if (game->map.collectible_count == 0)
+				draw_sprite(game, game->exit_opened, x, y);
+			else
+				draw_sprite(game, game->exit_closed, x, y);
+		}
+	}
 }
 
+// Renderiza todo el mapa, llamando a render_tile para cada celda.
 void	render_map(t_game *game)
 {
-	int		x;
-	int		y;
-	char	cell;
+	int	x;
+	int	y;
 
 	mlx_clear_window(game->mlx, game->win);
 	y = 0;
@@ -53,26 +48,30 @@ void	render_map(t_game *game)
 		x = 0;
 		while (x < game->map.width)
 		{
-			cell = game->map.map[y][x];
-			if (cell == MURO)
-				draw_sprite(game, game->wall, x, y);
-			else
-			{
-				draw_sprite(game, game->floor, x, y);
-				if (cell == ITEM)
-					draw_sprite(game, game->collectible, x, y);
-				if (cell == EXIT)
-				{
-					if (game->map.collectible_count == 0)
-						draw_sprite(game, game->exit_opened, x, y);
-					else
-						draw_sprite(game, game->exit_closed, x, y);
-				}
-			}
+			render_tile(game, x, y);
 			x++;
 		}
 		y++;
 	}
-	draw_sprite(game, game->player, game->map.player_pos.x, game->map.player_pos.y);
-	ft_printf("Movimientos: %d\n", game->moves);
+	draw_sprite(game, game->player, game->map.player_pos.x,
+		game->map.player_pos.y);
+}
+
+void	load_map_lines(t_game *game, int fd)
+{
+	char	*line;
+	int		len;
+
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		len = ft_strlen(line);
+		if (len > 0 && line[len - 1] == '\n')
+			line[len - 1] = '\0';
+		game->map.map = append_str_to_array(game->map.map, line);
+		game->map.height++;
+		free(line);
+	}
 }

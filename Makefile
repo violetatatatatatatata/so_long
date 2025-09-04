@@ -6,19 +6,19 @@
 #    By: avelandr <avelandr@student.42barcelon>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/15 12:30:28 by avelandr          #+#    #+#              #
-#    Updated: 2025/09/03 21:53:08 by avelandr         ###   ########.fr        #
+#    Updated: 2025/09/04 11:32:22 by avelandr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Compilador y sus flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 # Nombre del ejecutable
 NAME = so_long
 
 # Archivos fuente del proyecto
-SRCS = srcs/main.c srcs/map.c srcs/render.c srcs/sprite_init.c srcs/bfs.c srcs/game_logic.c srcs/utils.c
+SRCS = srcs/main.c srcs/sprites.c srcs/checker.c srcs/map.c srcs/render.c srcs/bfs_run.c srcs/bfs.c srcs/bfs_utils.c srcs/game_logic.c srcs/utils.c
 
 # Archivos objeto
 OBJS = $(SRCS:.c=.o)
@@ -38,7 +38,7 @@ INCLUDES = -I./srcs -I$(LIBFT_DIR)/Includes -I$(MLX_DIR)
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT_LIB) $(MLX_LIB)  # ← Agregar $(MLX_LIB) aquí
+$(NAME): $(OBJS) $(LIBFT_LIB) $(MLX_LIB)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LDFLAGS) -o $(NAME)
 
 $(LIBFT_LIB):

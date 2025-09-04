@@ -1,16 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sprite_init.c                                      :+:      :+:    :+:   */
+/*   sprites.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avelandr <avelandr@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 15:20:30 by avelandr          #+#    #+#             */
-/*   Updated: 2025/09/03 23:06:37 by avelandr         ###   ########.fr       */
+/*   Updated: 2025/09/04 09:41:50 by avelandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "solong.h"
+
+void	draw_sprite(t_game *game, t_img sprite, int x, int y)
+{
+	mlx_put_image_to_window(game->mlx, game->win, sprite.img,
+		x * TILE_SIZE, y * TILE_SIZE);
+}
 
 void	load_sprite(t_game *game, t_img *sprite, char *path)
 {
