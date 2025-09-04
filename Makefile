@@ -6,7 +6,7 @@
 #    By: avelandr <avelandr@student.42barcelon>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/15 12:30:28 by avelandr          #+#    #+#              #
-#    Updated: 2025/09/03 21:53:08 by avelandr         ###   ########.fr        #
+#    Updated: 2025/09/04 02:27:05 by avelandr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,16 @@ CFLAGS = -Wall -Wextra -Werror -g
 NAME = so_long
 
 # Archivos fuente del proyecto
-SRCS = srcs/main.c srcs/map.c srcs/render.c srcs/sprite_init.c srcs/bfs.c srcs/game_logic.c srcs/utils.c
+SRCS = \
+	srcs/main.c \
+	srcs/map.c \
+	srcs/checker.c \
+	srcs/bfs.c \
+	srcs/game_logic.c \
+	srcs/render.c \
+	srcs/sprite_init.c \
+	srcs/utils.c
+#	srcs/bfs_utils.c \ 
 
 # Archivos objeto
 OBJS = $(SRCS:.c=.o)
