@@ -2,11 +2,10 @@
 
 Este proyecto es un pequeño juego en 2D que te permite mover a un personaje a través de un mapa para recoger objetos y escapar. El objetivo es recolectar todos los objetos y salir del mapa, evitando chocar con los muros. El juego se construye utilizando la librería gráfica MiniLibX.
 
+![til](https://c.tenor.com/HAPT5_bel_QAAAAC/tenor.gif)
 ### Requisitos de Compilación
 
-Para compilar y ejecutar el proyecto, necesitas tener instalada la librería MiniLibX.
-[https://github.com/42paris/minilibx-linux.git](https://github.com/42paris/minilibx-linux.git)
-Documentacion oficial: [https://harm-smits.github.io/42docs/libs/minilibx](https://harm-smits.github.io/42docs/libs/minilibx)
+Para compilar y ejecutar el proyecto, necesitas tener instalada la librería [MiniLibX](https://github.com/42paris/minilibx-linux.git) con su propia [documentación oficial](https://harm-smits.github.io/42docs/libs/minilibx)
 
 ### Guía de Referencia
 
